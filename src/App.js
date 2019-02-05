@@ -1,23 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-
-const Links = () => (
-	<nav>
-		<Link to="/page">Page</Link>
-		<Link to="/page/subpage">Subpage</Link>
-	</nav>
-);
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 const App = props => (
 	<Router basename={props.path}>
 		<Route
-			path="/:page?/:subpage?"
+			// matches with this example http://localhost:3000/02-28-2017.html
+			path="/:a(\d{2}-\d{2}-\d{4}):b(\.[a-z]+)"
 			render={({ match }) => (
 				<React.Fragment>
-					<Links />
-					<h2>Page: {match.params.page || 'Home'}</h2>
-					<h2>Subpage: {match.params.subpage}</h2>
+					<h1>paramA: {match.params.a}</h1>
+					<h1>paramB: {match.params.b}</h1>
 				</React.Fragment>
 			)}
 		/>
