@@ -1,19 +1,31 @@
-import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+
+import React from 'react';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+
+const Links = () => (
+	<nav>
+		<Link to="/?id=123">Inline</Link>
+		<Link to={{ pathname: '/', search: 'id=456' }}>Object</Link>
+	</nav>
+);
 
 const App = props => (
 	<Router basename={props.path}>
-		<Route
-			// matches with this example http://localhost:3000/02-28-2017.html
-			path="/:a(\d{2}-\d{2}-\d{4}):b(\.[a-z]+)"
-			render={({ match }) => (
-				<React.Fragment>
-					<h1>paramA: {match.params.a}</h1>
-					<h1>paramB: {match.params.b}</h1>
-				</React.Fragment>
-			)}
-		/>
+		<div>
+			<Links />
+			<Route
+				path="/"
+				render={({ match, location }) => (
+					<div>
+						<p>root</p>
+						<p>{JSON.stringify(match)}</p>
+						<p>{JSON.stringify(location)}</p>
+						<p>{new URLSearchParams(location.search).get('id')}</p>
+					</div>
+				)}
+			/>
+		</div>
 	</Router>
 );
 
