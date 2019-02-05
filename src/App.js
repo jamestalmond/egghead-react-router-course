@@ -1,34 +1,29 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom';
-
-import './App.css';
-
-const isActiveFunc = (match, location) => {
-	console.log(match, location);
-	return match;
-};
+import ReactDOM from 'react-dom';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 const Links = () => (
 	<nav>
-		<NavLink exact activeClassName="active" to="/">
-			Home
-		</NavLink>
-		<NavLink activeStyle={{ color: 'green' }} to="/about">
-			About
-		</NavLink>
-		<NavLink isActive={isActiveFunc} activeClassName="active" to="/contact">
-			Contact
-		</NavLink>
+		<Link to="/page">Page</Link>
+		<Link to="/page/subpage">Subpage</Link>
 	</nav>
 );
 
-const App = () => (
-	<Router>
-		<Links />
-		<Route exact path="/" render={() => <h1>Home</h1>} />
-		<Route path="/about" render={() => <h1>About</h1>} />
-		<Route path="/contact" render={() => <h1>Contact</h1>} />
+const App = props => (
+	<Router basename={props.path}>
+		<Route
+			path="/:page?/:subpage?"
+			render={({ match }) => (
+				<React.Fragment>
+					<Links />
+					<h2>Page: {match.params.page || 'Home'}</h2>
+					<h2>Subpage: {match.params.subpage}</h2>
+				</React.Fragment>
+			)}
+		/>
 	</Router>
 );
 
 export default App;
+const rootElement = document.getElementById('root');
+ReactDOM.render(<App />, rootElement);
