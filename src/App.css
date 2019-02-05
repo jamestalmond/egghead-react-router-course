@@ -1,0 +1,12 @@
+a {
+  color: blue;
+  margin: 5px;
+}
+
+a:visited {
+  color: rebeccapurple;
+}
+
+a.active {
+  color: red;
+}
